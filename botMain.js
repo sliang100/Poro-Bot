@@ -10,9 +10,11 @@ client.on('message', msg => {
     if(msg.content == 'galaxy brain') {
 	const galaxyBrain = new Discord.MessageAttachment('media/galaxyBrain.jpg');
 	msg.channel.send(galaxyBrain);
-    }else if(message.content == 'blaze it!') {
+    } else if(msg.content == 'blaze it!') {
 	const blazeIt = new Discord.MessageAttachment('media/snoopDog.jpg');
 	msg.channel.send(blazeIt);
+    } else {
+	//do nothing
     }
 });
 
