@@ -8,7 +8,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if(msg.content == 'galaxy brain') {
-	const galaxyBrain = new Discord.MessageAttachment('galaxyBrain.jpg');
+	const galaxyBrain = new Discord.MessageAttachment('media/galaxyBrain.jpg');
 	msg.channel.send(galaxyBrain);
     }
 });
