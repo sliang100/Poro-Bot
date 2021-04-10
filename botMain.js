@@ -8,11 +8,14 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if(msg.content == 'galaxy brain') {
-	const galaxyBrain = new Discord.MessageAttachment('media/galaxyBrain.jpg');
-	msg.channel.send(galaxyBrain);
+       const galaxyBrain = new Discord.MessageAttachment('media/galaxyBrain.jpg');
+       msg.channel.send(galaxyBrain);
     } else if(msg.content == 'blaze it!') {
-	const blazeIt = new Discord.MessageAttachment('media/snoopDog.jpg');
-	msg.channel.send(blazeIt);
+       const blazeIt = new Discord.MessageAttachment('media/snoopDog.jpg');
+       msg.channel.send(blazeIt);
+    } else if (msg.content == 'stonks') {
+       const stonksImg = new Discord.MessageAttachment('media/gooseStonks.jpg');
+       msg.channel.send(stonksImg);
     } else {
 	//do nothing
     }
