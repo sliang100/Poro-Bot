@@ -53,13 +53,23 @@ client.on('message', (msg) => {
             break;
       }      
       msg.channel.send(galaxyBrain);
-   } else if(msg.content === 'snoop dog') {
+   } else if(msg.content === 'blaze it!') {
       const blazeIt = new Discord.MessageAttachment('media/snoopDog.jpg');
       msg.channel.send(blazeIt);
    } else if (msg.content === 'stonks') {
       const stonksImg = new Discord.MessageAttachment('media/gooseStonks.jpg');
       msg.channel.send(stonksImg);
    /*league functionality*/
+   } else if (leagueModesList.includes(CMD)) {
+      let mode = CMD;
+      let champion = args[0];
+
+      if (mode === 'rift') {
+         mode = '5v5'
+      }
+
+      
+
    } else if (msg.content.startsWith(PREFIX)) {
       //split up given string by white-space to parse out command and arguments
       const [cmd, ...args] = msg.content.
