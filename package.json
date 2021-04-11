@@ -1,0 +1,26 @@
+{
+  "name": "discordsquadbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "discord.js": "^12.5.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/botMain.js",
+    "dev": "nodemon ./src/botMain.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sliang100/DiscordSquadBot.git"
+  },
+  "author": "sliang & rwfink4",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sliang100/DiscordSquadBot/issues"
+  },
+  "homepage": "https://github.com/sliang100/DiscordSquadBot#readme"
+}
