@@ -1,0 +1,25 @@
+{
+  "name": "discordsquadbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "botMain.js",
+  "dependencies": {
+    "agenda": "^4.1.2",
+    "discord.js": "^12.5.3",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sliang100/DiscordSquadBot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sliang100/DiscordSquadBot/issues"
+  },
+  "homepage": "https://github.com/sliang100/DiscordSquadBot#readme"
+}
