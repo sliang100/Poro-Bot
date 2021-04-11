@@ -4,6 +4,7 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const { Agenda } = require('agenda');
 const client = new Discord.Client();
+const PREFIX = "!";
 const mongoConnectionString = 'mongodb://127.0.0.1:27017/AgendaMedium';
 //start agenda instance
 const agenda = new Agenda({
