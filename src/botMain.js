@@ -53,7 +53,7 @@ client.on('message', (msg) => {
             break;
       }      
       msg.channel.send(galaxyBrain);
-   } else if(msg.content === 'blaze it!') {
+   } else if(msg.content === 'snoop dog') {
       const blazeIt = new Discord.MessageAttachment('media/snoopDog.jpg');
       msg.channel.send(blazeIt);
    } else if (msg.content === 'stonks') {
