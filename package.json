@@ -10,13 +10,15 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/botMain.js",
+    "dev": "nodemon ./src/botMain.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sliang100/DiscordSquadBot.git"
   },
-  "author": "",
+  "author": "sliang & rwfink4",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/sliang100/DiscordSquadBot/issues"
