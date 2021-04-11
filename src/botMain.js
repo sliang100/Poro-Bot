@@ -53,7 +53,7 @@ client.on('message', (msg) => {
             break;
       }      
       msg.channel.send(galaxyBrain);
-   } else if(msg.content === 'blaze it!') {
+   } else if(msg.content === 'blaze it!' || msg.content === 'snoop dog') {
       const blazeIt = new Discord.MessageAttachment('media/snoopDog.jpg');
       msg.channel.send(blazeIt);
    } else if (msg.content === 'stonks') {
@@ -68,6 +68,8 @@ client.on('message', (msg) => {
          mode = '5v5'
       }
 
+      let link = "https://www.metasrc.com/" + mode + "/champion/" + champion;
+      msg.channel.send(link);
       
 
    } else if (msg.content.startsWith(PREFIX)) {
