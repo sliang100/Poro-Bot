@@ -78,8 +78,8 @@ client.on('message', (msg) => {
          mode = '5v5'
       }
 
-
-
+      let link = "https://www.metasrc.com/" + mode + "/champion/" + champion;
+      msg.channel.send(link);
    } else if (msg.content.startsWith(PREFIX)) {
       //split up given string by white-space to parse out command and arguments
       const [cmd, ...args] = msg.content.
