@@ -2,7 +2,7 @@
   "name": "discordsquadbot",
   "version": "1.0.0",
   "description": "",
-  "main": "botMain.js",
+  "main": "./src/botMain.js",
   "dependencies": {
     "agenda": "^4.1.2",
     "discord.js": "^12.5.3",
