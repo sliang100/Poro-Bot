@@ -1,14 +1,29 @@
+//load all required packages
 require('dotenv').config();
 
-const Discord  = require('discord.js');
+const Discord = require('discord.js');
+const { Agenda } = require('agenda');
 const client = new Discord.Client();
 const PREFIX = "!";
+const mongoConnectionString = 'mongodb://127.0.0.1:27017/AgendaMedium';
+//start agenda instance
+const agenda = new Agenda({
+   db: {address: mongoConnectionString, collection: 'Agenda'},
+   processEvery: '20 seconds',
+   useUnifiedTopology: true
+});
 
+//define agenda job
+agenda.define("alarm1", (job) => {
+   client.channels.cache.get(job.attrs.data.channelID).send('alarm');
+});
 
-client.login(process.env.DISCORD_BOT_TOKEN); 
+//start agenda
+agenda.start();
 
+//start discord bot
 client.on('ready', () => {
-   console.log(` Beep boop, ${client.user.tag} has logged on!`)
+   console.log(` Beep boop, ${client.user.tag} has logged on and is ready!`);
 });
 
 /*returns True is parameter is a number, False otherwise*/
@@ -32,14 +47,10 @@ client.on('message', (msg) => {
       .split(/\s+/);
    const leagueModesList = ['5v5', 'rift', 'aram', 'urf', 'ofa', 'blitz'];
 
-   /*placeholder for setAlarm command*/
-   if (msg.content.startsWith('!setAlarm')){ 
-      return;
-   /*responding with memes*/
-   } else if(msg.content == 'galaxy brain' || (isNumber(CMD) && CMD >= 200 && args[0].toUpperCase() === "IQ") ) {
+   if(msg.content == 'galaxy brain' || (isNumber(CMD) && CMD >= 200 && args[0].toUpperCase() === "IQ") ) {
       let seed = getRandomInt(1, 3);
       let galaxyBrain;
-      
+
       /*determining random galaxy brain image to send*/
       switch (seed) {
          case 1:
@@ -59,7 +70,7 @@ client.on('message', (msg) => {
    } else if (msg.content === 'stonks') {
       const stonksImg = new Discord.MessageAttachment('media/gooseStonks.jpg');
       msg.channel.send(stonksImg);
-   /*league functionality*/
+      /*league functionality*/
    } else if (leagueModesList.includes(CMD)) {
       let mode = CMD;
       let champion = args[0];
@@ -70,64 +81,110 @@ client.on('message', (msg) => {
 
       let link = "https://www.metasrc.com/" + mode + "/champion/" + champion;
       msg.channel.send(link);
-      
-
    } else if (msg.content.startsWith(PREFIX)) {
       //split up given string by white-space to parse out command and arguments
       const [cmd, ...args] = msg.content.
          trim()
          .substring(PREFIX.length)
          .split(/\s+/);
-     
-      if (cmd === 'alarm') {
+
+      if (cmd === 'alarm' || cmd === 'setAlarm') {
          /*put alarm code here*/
-         msg.channel.send('placeholder for alarm code');  
+         let msgChanID = msg.channel.id;
+         let commandStr = msg.content;
+
+         //command format: !setAlarm [hour]:[minute] [month]/[day]/[year]
+         let timeStr = commandStr.substring(10);
+         let i = 0;
+         let month = '', day = '', year = '', hour = '', minute = '';
+
+         while(timeStr.charAt(i) != ':' && i < timeStr.length) {
+            hour = hour + timeStr.charAt(i);
+            i++;
+         }
+
+         i++;
+
+         while(timeStr.charAt(i) != ' ' && i < timeStr.length) {
+            minute = minute + timeStr.charAt(i);
+            i++;
+         }
+
+         i++;
+
+         while(timeStr.charAt(i) != '/' && i < timeStr.length) {
+            month = month + timeStr.charAt(i);
+            i++;
+         }
+
+         i++;
+
+         while(timeStr.charAt(i) != '/' && i < timeStr.length) {
+            day = day + timeStr.charAt(i);
+            i++;
+         }
+
+         i++;
+
+         while(i < timeStr.length) {
+            year = year + timeStr.charAt(i);
+            i++;
+         }
+
+         if(hour == '' || minute == '') {
+            console.error('insufficent time data');
+         } else if(month == '' || day == '') {
+            //set day, month, and year to current day, month, and year
+            let now = new Date();
+            let monthInt = now.getMonth() + 1;
+            let dayInt = now.getDate();
+            let yearInt = now.getFullYear();
+
+            month = monthInt.toString();
+            day = dayInt.toString();
+            year = yearInt.toString();
+
+            let alarmTime = new Date();
+            alarmTime.setDate(parseInt(day));
+            alarmTime.setMonth(parseInt(month) - 1);
+            alarmTime.setFullYear(parseInt(year));
+            alarmTime.setHours(parseInt(hour));
+            alarmTime.setMinutes(parseInt(minute));
+            agenda.schedule(alarmTime, "alarm1", { channelID: msgChanID });
+         } else if(year == '' ) {
+            //set year to current year
+            let now = new Date();
+            let yearInt = now.getFullYear();
+
+            year = yearInt.toString();
+
+            let alarmTime = new Date();
+            alarmTime.setDate(parseInt(day));
+            alarmTime.setMonth(parseInt(month) - 1);
+            alarmTime.setFullYear(parseInt(year));
+            alarmTime.setHours(parseInt(hour));
+            alarmTime.setMinutes(parseInt(minute));
+            agenda.schedule(alarmTime, "alarm1", { channelID: msgChanID });
+         } else {
+            let alarmTime = new Date();
+            alarmTime.setDate(parseInt(day));
+            alarmTime.setMonth(parseInt(month) - 1);
+            alarmTime.setFullYear(parseInt(year));
+            alarmTime.setHours(parseInt(hour));
+            alarmTime.setMinutes(parseInt(minute));
+            //run with all user data
+            agenda.schedule(alarmTime, "alarm1", { channelID: msgChanID });
+         }
+
       } else if (cmd === 'timer') {
          /*put timer code here*/
          msg.channel.send('placeholder for timer code');
       }
-      console.log(cmd);
-      console.log(args);
-
    }
-
-
-
-
 
    /*logging all user messages*/
    console.log(`[${msg.author.tag}]: ${msg.content}`);
-
-   /*example code greeting user*/
-   if(msg.content === 'hello') {
-      msg.channel.send('hello')
-   } 
-});
-
-/*
-client.on('message', msg => {
-   let message = msg.content;
-   //let startsWithTriggerChar = message.startsWith("!", 0);
-
-   if(msg.content == 'galaxy brain') {
-      const galaxyBrain = new Client.MessageAttachment('media/galaxyBrain.jpg');
-      msg.channel.send(galaxyBrain);
-   } else if(msg.content == 'blaze it!') {
-      const blazeIt = new Client.MessageAttachment('media/snoopDog.jpg');
-      msg.channel.send(blazeIt);
-   } else if (msg.content == 'stonks') {
-      const stonksImg = new Client.MessageAttachment('media/gooseStonks.jpg');
-      msg.channel.send(stonksImg);
-   } else {
-   
-   }
-   if (startsWithTiggerChar) {
-      const stonksImg = new Discord.MessageAttachment('media/gooseStonks.jpg');
-      msg.channel.send(stonksImg);
-   }
-
-});
-*/
-
+  });
+ 
+//discord bot token
 client.login(process.env.BOTTOKEN);
-
